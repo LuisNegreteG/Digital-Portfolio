@@ -8,10 +8,10 @@ Here you will find a curated selection of my work in **Data Analytics, Business 
 ## 🚀 About Me  
 I am a **Data Professional** passionate about transforming raw data into actionable insights.  
 Currently pursuing a **Master of Data Analytics in Canada**, I specialize in:  
-- **Analytics & BI**: Power BI, Tableau, SQL, Excel Advanced  
+- **Analytics & BI**: Power BI, Tableau, QlikSense SQL, Excel Advanced  
 - **Data Engineering**: Python (pandas, ETL), SQL Pipelines, GitHub, PySpark, Cloud Computinh (GCP, AWS & Azure)  
 - **Data Science**: Clustering, Forecasting, Machine Learning (scikit-learn)  
-- **Soft Skills**: Communication, Remote Teamwork, Problem-solving  
+- **Soft Skills**: Communication, Remote Teamwork, Problem-solving, Resilient, Self-learning  
 
 ---
 
