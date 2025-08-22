@@ -52,8 +52,9 @@ Currently pursuing a **Master of Data Analytics in Canada**, I specialize in:
 ---
 
 ## 🎓 Education  
-- Master of Data Analytics – *University of Niagara Falls Canada* (In progress)  
-- Bachelor of Science, Systems Engineering – *Universidad Nacional de Ingeniería*  
+- Master of Data Analytics – *University of Niagara Falls Canada* (In progress)
+- Specialization in Business Analytics & Business Intelligence – *Universidad Nacional de Ingenieria - Peru*  
+- Bachelor of Science, Systems Engineering – *Universidad Nacional de Ingenieria - Peru*  
 
 ---
 
