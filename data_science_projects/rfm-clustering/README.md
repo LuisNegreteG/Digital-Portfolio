@@ -41,7 +41,10 @@ The goal is to help businesses identify high-value customers, predict churn, and
 ---
 
 ## 📸 Sample Outputs
-*(to be added – clustering scatter plots, RFM distribution charts, and heatmaps)*  
+
+<img width="1148" height="666" alt="image" src="https://github.com/user-attachments/assets/4d7cb116-c722-481d-beec-30a20e815dca" />
+
+<img width="930" height="648" alt="image" src="https://github.com/user-attachments/assets/f3ee36dd-0187-4372-afe4-9ef4ea36718f" />
 
 ---
 
