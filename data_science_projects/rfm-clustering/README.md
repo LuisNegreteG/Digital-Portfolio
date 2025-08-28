@@ -47,7 +47,7 @@ The goal is to help businesses identify high-value customers, predict churn, and
 
 ## 🔗 Resources
 - Notebook: [`RFM_Cluster Segmentation_Project.ipynb`](./RFM_Cluster Segmentation_Project.ipynb)  
-- Data Source: *(add dataset link if public, e.g., Kaggle)*  
+- Data Source: https://archive.ics.uci.edu/dataset/502/online+retail+ii
 
 ---
 
