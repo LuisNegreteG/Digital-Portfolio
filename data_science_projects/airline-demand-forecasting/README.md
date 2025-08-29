@@ -4,7 +4,7 @@
 This project builds a **time series forecasting** pipeline to model and predict **airline passenger demand**.  
 It uses classical statistical models (**ARIMA / SARIMA**) from `statsmodels` and includes full diagnostics (stationarity tests, ACF/PACF, residual analysis).
 
-> Notebook: [`Airline_Demand_PredAnalytics1.ipynb`](./Canadian_Airline_Demand_Prediction.ipynb)
+> Notebook: [`Canadian_Airline_Demand_Prediction.ipynb`](./Canadian_Airline_Demand_Prediction.ipynb)
 
 ---
 
