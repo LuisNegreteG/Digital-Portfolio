@@ -4,7 +4,7 @@
 This project builds a **time series forecasting** pipeline to model and predict **airline passenger demand**.  
 It uses classical statistical models (**ARIMA / SARIMA**) from `statsmodels` and includes full diagnostics (stationarity tests, ACF/PACF, residual analysis).
 
-> Notebook: [`Airline_Demand_PredAnalytics1.ipynb`](./Airline_Demand_PredAnalytics1.ipynb)
+> Notebook: [`Airline_Demand_PredAnalytics1.ipynb`](./Canadian_Airline_Demand_Prediction.ipynb)
 
 ---
 
@@ -51,19 +51,7 @@ It uses classical statistical models (**ARIMA / SARIMA**) from `statsmodels` and
 
 ---
 
-## ✅ Results (to be updated)
-- **Best model**: `ARIMA/SARIMA (p,d,q) x (P,D,Q,s)` *(fill after selection)*  
-- **Test metrics**:
-  - MAE: `...`
-  - RMSE: `...`
-  - MAPE: `...`
-- **Key insights**:
-  - Seasonality: `...`
-  - Trend changes / shocks: `...`
-
----
-
-## 📸 Plots (add saved figures from /images)
+## 📸 Plots 
 
 <img width="1389" height="590" alt="image" src="https://github.com/user-attachments/assets/498e4707-eb7d-4c76-93df-64d47cd00320" />
 
