@@ -1,13 +1,3 @@
-
----
-
-# 🧾 Código: `data_engineering_projects/cdr_daily_ingestion_pipeline/pyspark_cdr_daily_ingestion.scala`
-
-```scala
-// File: pyspark_cdr_daily_ingestion.scala
-// Purpose: Read daily-partitioned raw CDRs -> apply safe, parameterized filters -> write curated parquet partitioned by period
-// Notes: All names/filters are placeholders (generic & anonymized)
-
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
@@ -15,34 +5,36 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-object CdrDailyIngestionJob {
+object DailyIngestionJob {
 
   case class Params(
-    rawBasePath: String,
-    outputBasePath: String,
-    period: String,
-    dayStart: Int,
-    dayEnd: Int,
-    phonePrefix: String,
-    msisdnLength: Int,
-    routeCodes: Seq[String],
-    recordTypes: Seq[String]
+    inBase: String,        // e.g., s3://bucket/raw
+    outBase: String,       // e.g., s3://bucket/curated
+    period: String,        // e.g., 202501 (YYYYMM)
+    dStart: Int,           // first day (1..31)
+    dEnd: Int,             // last day (1..31)
+    idPrefix: String,      // generic prefix filter for ids (e.g., "PX")
+    idLen: Int,            // expected trimmed length for ids (e.g., 10)
+    routeList: Seq[String],// allowed route codes (pipe-separated in args)
+    typeList: Seq[String]  // allowed type codes  (pipe-separated in args)
   )
 
-  def parseArgs(argstr: String): Params = {
+  private def parseArgs(argstr: String): Params = {
     val a = argstr.split(",")
-    require(a.length >= 9,
-      s"Expected 9 args: rawBase, outputBase, period, dayStart, dayEnd, phonePrefix, msisdnLength, routeCodes, recordTypes")
+    require(
+      a.length >= 9,
+      "Expected 9 args: inBase,outBase,period,dStart,dEnd,idPrefix,idLen,routeList,typeList"
+    )
     Params(
-      rawBasePath     = a(0),
-      outputBasePath  = a(1),
-      period          = a(2),
-      dayStart        = a(3).toInt,
-      dayEnd          = a(4).toInt,
-      phonePrefix     = a(5),
-      msisdnLength    = a(6).toInt,
-      routeCodes      = a(7).split("\\|").toSeq,
-      recordTypes     = a(8).split("\\|").toSeq
+      inBase    = a(0),
+      outBase   = a(1),
+      period    = a(2),
+      dStart    = a(3).toInt,
+      dEnd      = a(4).toInt,
+      idPrefix  = a(5),
+      idLen     = a(6).toInt,
+      routeList = a(7).split("\\|").toSeq,
+      typeList  = a(8).split("\\|").toSeq
     )
   }
 
@@ -51,62 +43,65 @@ object CdrDailyIngestionJob {
     import spark.implicits._
 
     try {
-      val params = parseArgs(spark.sparkContext.getConf.get("spark.driver.args"))
+      val p = parseArgs(spark.sparkContext.getConf.get("spark.driver.args"))
 
-      val fs   = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-      val fmt  = DateTimeFormatter.ofPattern("yyyyMMdd")
+      val fs  = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+      val fmt = DateTimeFormatter.ofPattern("yyyyMMdd")
 
-      // Build daily paths safely (raw expected partition: event_time_partition=yyyyMMdd)
-      val baseDate   = LocalDate.parse(s"${params.period.take(4)}-${params.period.drop(4)}-01")
-      val startDate  = baseDate.`with`(java.time.temporal.TemporalAdjusters.firstDayOfMonth()).withDayOfMonth(params.dayStart)
-      val endDate    = baseDate.`with`(java.time.temporal.TemporalAdjusters.firstDayOfMonth()).withDayOfMonth(params.dayEnd)
+      // Build daily paths (raw expected partition key is generic: dt=yyyyMMdd)
+      val year  = p.period.take(4).toInt
+      val month = p.period.drop(4).toInt
+      val start = LocalDate.of(year, month, p.dStart)
+      val end   = LocalDate.of(year, month, p.dEnd)
 
-      val dailyPaths = Iterator.iterate(startDate)(_.plusDays(1))
-        .takeWhile(!_.isAfter(endDate))
-        .map(d => s"${params.rawBasePath}/event_time_partition=${d.format(fmt)}")
-        .filter(p => fs.exists(new Path(p)))
-        .toSeq
+      val dailyPaths: Seq[String] =
+        Iterator.iterate(start)(_.plusDays(1))
+          .takeWhile(!_.isAfter(end))
+          .map(d => s"${p.inBase}/dt=${d.format(fmt)}")
+          .filter(path => fs.exists(new Path(path)))
+          .toSeq
 
       require(dailyPaths.nonEmpty,
-        s"No input partitions found for period=${params.period} and range [${params.dayStart},${params.dayEnd}] under ${params.rawBasePath}")
+        s"No input partitions found for period=${p.period} and range [${p.dStart},${p.dEnd}] under ${p.inBase}")
 
-      // Read all days at once (faster & simpler than chaining unions)
-      val rawDF = spark.read
-        .option("basePath", params.rawBasePath)
+      // Read all days at once
+      val raw = spark.read
+        .option("basePath", p.inBase)
         .parquet(dailyPaths: _*)
 
-      // Rename to generic column names (SAFE placeholders)
-      val df = rawDF.select(
-        col("TIM_NUMBER").as("caller_id"),
-        col("NUMBER_B").as("callee_id"),
-        col("RECORD_TYPE").as("record_type"),
-        col("CHARGING_START_TIME").as("event_ts"),
-        col("CALL_DURATION").as("call_duration"),
-        col("RN_ORI").as("route_src"),
-        col("RN_DES").as("route_dst")
+      // Map raw columns to neutral names (adjust the selectors on the left to your raw schema)
+      // Left side: raw source columns (example placeholders) -> Right side: neutral names
+      val df = raw.select(
+        col("COL_A").as("id_a"),       // e.g., caller id
+        col("COL_B").as("id_b"),       // e.g., callee id
+        col("COL_T").as("type_code"),  // e.g., record type
+        col("COL_TS").as("ts"),        // e.g., event timestamp
+        col("COL_D").as("dur"),        // e.g., duration
+        col("COL_S").as("src"),        // e.g., route source
+        col("COL_R").as("dst")         // e.g., route destination
       )
 
-      // Parameterized filters (no proprietary codes)
+      // Parameterized filters (fully generic)
       val curated = df
-        .filter(col("call_duration").cast(IntegerType) > 5)
-        .filter(col("record_type").isin(params.recordTypes: _*))
-        .filter(col("route_src").isin(params.routeCodes: _*) && col("route_dst").isin(params.routeCodes: _*))
-        .filter(startsWith(trim(col("caller_id")), params.phonePrefix) && length(trim(col("caller_id"))) === params.msisdnLength)
-        .filter(startsWith(trim(col("callee_id")), params.phonePrefix) && length(trim(col("callee_id"))) === params.msisdnLength)
-        .withColumn("period", lit(params.period))
+        .filter(col("dur").cast(IntegerType) > 5)
+        .filter(col("type_code").isin(p.typeList: _*))
+        .filter(col("src").isin(p.routeList: _*) && col("dst").isin(p.routeList: _*))
+        .filter(trim(col("id_a")).startsWith(p.idPrefix) && length(trim(col("id_a"))) === p.idLen)
+        .filter(trim(col("id_b")).startsWith(p.idPrefix) && length(trim(col("id_b"))) === p.idLen)
+        .withColumn("prd", lit(p.period)) // neutral partition column
 
-      // Optional: control file sizes per partition
-      val curatedOut = curated.repartition(col("period"))
+      // Optional: control file sizes/parallelism
+      val outDf = curated.repartition(col("prd"))
 
-      curatedOut.write
+      outDf.write
         .mode("overwrite")
-        .parquet(s"${params.outputBasePath}/period=${params.period}")
+        .parquet(s"${p.outBase}/prd=${p.period}")
 
-      println(s"[OK] Wrote curated CDRs to ${params.outputBasePath}/period=${params.period}")
+      println(s"[OK] Wrote curated dataset to ${p.outBase}/prd=${p.period}")
 
     } catch {
       case e: Throwable =>
-        System.err.println(s"[ERROR] ${e.getMessage}")
+        System.err.println(s"[ERROR] " + e.getMessage)
         throw e
     } finally {
       spark.stop()
