@@ -1,55 +1,24 @@
-# 📂 Luis Negrete – Digital Portfolio
+## About Me
 
-Welcome to my **professional digital portfolio**, where I showcase projects across **Data Analytics, Business Intelligence, Data Engineering, and Data Science**.  
-This portfolio reflects my technical expertise, problem-solving skills, and ability to turn **complex datasets into actionable business insights**.
+I am a highly motivated and technically skilled data professional with extensive experience in data engineering, business intelligence, automation, and data analytics. Over the years, I have contributed to the design and implementation of scalable data pipelines, dynamic dashboards, and predictive analytical models that support data-driven decision-making across various industries.
 
----
+Proficient in Python, SQL, data visualization tools (Power BI, Tableau and QlikSense), and cloud technologies like AWS and Azure, I have successfully automated workflows and improved data accessibility and quality, ensuring reliable insights for business units.
 
-## 👨‍💻 About Me
-I am a data professional with experience in **data engineering, business intelligence, and advanced analytics**.  
-Currently pursuing a **Master of Data Analytics in Canada**, I focus on building **end-to-end solutions**: from data ingestion and feature engineering to predictive modeling and BI dashboards.  
+Currently pursuing a Master of Data Analytics in Canada, I am expanding my expertise into data science and predictive modeling, eager to leverage machine learning techniques to solve complex business problems while improving and consolidating my expertise in this amazing field.
 
-- Bilingual: **English & Spanish** 🌐  
-- Skilled in **Python, SQL, Spark, and BI tools** (Power BI, Tableau, QlikSense).  
-- Passionate about **data-driven decision-making** and **storytelling with data**.  
+Bilingual in English and Spanish, with strong communication skills and experience working in collaborative, remote environments, I seek opportunities where I can contribute technically while continuing to grow as a data scientist and analytics professional.
 
 ---
 
-## 📊 Data Analytics & BI Projects
-Projects focused on **dashboards, KPI tracking, and business intelligence**.
-
-- **🛒 Sales Analytics (Power BI)** – Star schema model, KPIs (sales, profit, margins), dashboards with What-If scenarios.  
-- **💳 Credit Risk Analysis (Power BI + Python)** – BI dashboards enriched with clustering and PCA for risk segmentation.  
-- **🏥 Hospital Ratings & Timeliness (Tableau)** – Healthcare quality benchmarking across U.S. hospitals.  
-- **🇨🇦 Canadian Airline Industry Analysis (Tableau/Power BI)** – Strategic airline analysis using **PESTEL framework**.
-
-📂 [Explore here](./data_analytics_bi_projects)
+## Education & Certifications
+- **Master of Data Analytics** – University of Niagara Falls Canada *(In progress)*  
+- **Business Intelligence & Analytics Specialization** – Universidad Nacional de Ingeniería, Peru  
+- **BSc. Systems Engineering** – Universidad Nacional de Ingeniería, Peru
+- **PL-300** - Microsoft Certified Power BI Data Analyst Associate
 
 ---
 
-## 🧠 Data Science Projects
-Projects applying **machine learning, predictive modeling, and advanced analytics**.
-
-- **✈️ Airline Demand Forecasting** – Time-series forecasting for passenger demand.  
-- **⚙️ Operations Analytics** – Optimization and scenario analysis for resource allocation.  
-- **📊 RFM Clustering** – Customer segmentation using Recency, Frequency, and Monetary metrics.  
-
-📂 [Explore here](./data_science_projects)
-
----
-
-## ⚙️ Data Engineering Projects
-Projects showcasing **data pipelines, ETL, SQL engineering, and feature engineering**.
-
-- **🛰️ PySpark CDR Daily Ingestion** – Scalable pipeline for ingesting telecom call detail records.  
-- **🔧 PySpark CDR Feature Engineering** – Feature transformations for ML-ready datasets.  
-- **🗄️ SQL Examples** – Partitioned DDLs, stored procedures, and analytical SQL scripts.  
-
-📂 [Explore here](./data_engineering_projects)
-
----
-
-## 🛠️ Tech Stack
+## Tech Stack
 
 **Languages:** Python, SQL, R, Scala  
 **Data Engineering:** PySpark, ETL Pipelines, Parquet, Airflow, SQL/PLSQL  
@@ -60,19 +29,9 @@ Projects showcasing **data pipelines, ETL, SQL engineering, and feature engineer
 
 ---
 
-## 🎓 Education
-- **Master of Data Analytics** – University of Niagara Falls Canada *(In progress)*  
-- **Business Intelligence & Analytics Specialization** – Universidad Nacional de Ingeniería, Peru  
-- **BSc. Systems Engineering** – Universidad Nacional de Ingeniería, Peru  
+## Contact
+- Email: **lnegreteg@uni.pe**  
+- LinkedIn: [Luis Carlo Negrete Girano](https://www.linkedin.com/in/luis-carlo-negrete-girano/)  
 
 ---
-
-## 📬 Contact
-- 📧 Email: **lnegreteg@uni.pe**  
-- 🔗 LinkedIn: [Luis Carlo Negrete Girano](https://www.linkedin.com/in/luis-carlo-negrete-girano/)  
-- 💻 GitHub: [@lnegreteg](https://github.com/lnegreteg)
-
----
-
-✨ *Thank you for visiting my portfolio. Explore the projects above and feel free to connect with me!*  
 
